@@ -22,23 +22,28 @@ def test_scrum_daily_has_1_display_and_3_questions_to_fill():
     assert interactive.input.call_count == 3 
     assert interactive.print.call_count == 1
 
-#def test_print_and_ask_input_given_the_step_data:
-#    with open("double_your_productivity.xml") as step_data:
-#        ask_user_inputs(step_data)
-            
 
+# Do we really write the file while running the unit test or is there another softer way?
+def test_save_filled_form():
+    form_file = "scrum_daily.xml"
+    SAME_ANSWER = "The answer"  # can only mock input() with one constant value
+    form_with_answers = None
+    expected_form_file = "scrum_daily_dummy_answers.xml"
+    expected_form_str = None
+    actual_form_str = None
+    with open(expected_form_file) as f:
+        expected_form_str = f.read()
 
-#def test_register_questions_answers():
+    with unittest.mock.patch("builtins.input", return_value=SAME_ANSWER):
+        form_with_answers = interactive.read_and_fill(form_file)
+        actual_form_file = "test_form_with_answers.xml"
+        form_with_answers.write(actual_form_file)
+        with open(actual_form_file) as f:
+            actual_form_str = f.read()
+
+    assert " ".join(expected_form_str.split()) == " ".join(actual_form_str.split())
     
 
-#def test_get_display_of_questions_answer():
-#    SAME_ANSWER = "The answer"  # can only mock input() with one constant value
-#    expected = ""
-#    with open("display_of_questions_answer1.txt") as f:
-#        expected = f.read()
-#    with mock.patch("builtins.input", return_value=SAME_ANSWER):
-#        questions_answers = main.get_display_of_questions_answer()
-#        assert expected == questions_answers
 
 """Tests at a micro level"""
 
@@ -59,9 +64,3 @@ def test_get_scrum_daily_xml_with_answers():
         for qa in form_with_answers.getroot().findall("question"):
             assert qa.attrib.get("answer") == SAME_ANSWER
 
-# Do I really need that:
-#    """Collection of expected answers"""
-#    expected_form = "scrum_daily_dummy_answers.xml"
-#    root = ET.parse(expected_form).getroot()
-#    for qa in root.findall("question"):
-#        assert qa.attrib.get("answer") == SAME_ANSWER
