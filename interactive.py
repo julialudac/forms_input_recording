@@ -14,7 +14,8 @@ def get_welcome_message(xml_root):
     title_element = list(xml_root)[0]
     return "Welcome to the " + title_element.text + " system!"
 
-def read_form(form_file):
+
+def read_and_fill(form_file):
     root = ET.parse(form_file).getroot()
     print(get_welcome_message(root))
 
@@ -22,12 +23,15 @@ def read_form(form_file):
         if el.tag == "text":
             print(el.text)
         elif el.tag == "question":
-            a = input()
-    
+            a = input(el.text + " ")
+            el.set("answer", "The answer")
+
+    return ET.ElementTree(root)
+
 
 def main():
     if True:
-        read_form("scrum_daily.xml")
+        read_and_fill("scrum_daily.xml")
     else:
         main_old
 

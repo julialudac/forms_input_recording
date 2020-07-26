@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 def test_double_your_productivity_has_1_display_and_3_questions_to_fill():
     form = "double_your_productivity.xml"
     interactive.input = Mock()
-    interactive.read_form(form)
+    interactive.read_and_fill(form)
     assert interactive.input.call_count == 3 
 
 def test_scrum_daily_has_1_display_and_3_questions_to_fill():
@@ -17,7 +17,7 @@ def test_scrum_daily_has_1_display_and_3_questions_to_fill():
     interactive.input = Mock()
     interactive.print = Mock()
 
-    interactive.read_form(form)
+    interactive.read_and_fill(form)
 
     assert interactive.input.call_count == 3 
     assert interactive.print.call_count == 1
@@ -51,17 +51,17 @@ def test_get_welcome_message_for_scrum_daily_sheet():
     assert "Welcome to the Scrum Daily system!" == welcome_message
     
 def test_get_scrum_daily_xml_with_answers():
-    TODO stopped here
-    1/ create the expected xml file
-    2/ Know how to compare 2 xml DOMs. Optional: Know how to display DOMS so easier to debug when looking at it
-    3/ Transform the read_form function to have a read_and_fill form that return the new xml filled
-    form = "scrum_daily"
+    form = "scrum_daily.xml"
     SAME_ANSWER = "The answer"  # can only mock input() with one constant value
-    expected = None
-    with mock.patch("builtins.input", return_value=SAME_ANSWER):
-        expected = f.read()
-        form_with_answers = get_form_with_answers_from_user(form)
-        assert expected == form_with_answers
+    form_with_answers = None
+    with unittest.mock.patch("builtins.input", return_value=SAME_ANSWER):
+        form_with_answers = interactive.read_and_fill(form)
+        for qa in form_with_answers.getroot().findall("question"):
+            assert qa.attrib.get("answer") == SAME_ANSWER
 
-
-
+# Do I really need that:
+#    """Collection of expected answers"""
+#    expected_form = "scrum_daily_dummy_answers.xml"
+#    root = ET.parse(expected_form).getroot()
+#    for qa in root.findall("question"):
+#        assert qa.attrib.get("answer") == SAME_ANSWER
