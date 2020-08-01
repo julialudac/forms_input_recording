@@ -23,17 +23,26 @@ def read_and_fill(form_file):
         if el.tag == "text":
             print(el.text)
         elif el.tag == "question":
-            a = input(el.text + " ")
-            el.set("answer", "The answer")
+            answer = input(el.text + " ")
+            el.set("answer", answer)
 
     return ET.ElementTree(root)
+
+def save_filled_form(form, filename):
+    form.write(filename)
+    print("The form has been saved with current name '" + filename + "'")
 
 
 def main():
     if True:
-        read_and_fill("scrum_daily.xml")
+        #  For now which file to read = hardcoded => TODO = ask user which file to read
+        filled_form = read_and_fill("scrum_daily.xml")
+        to_save = input("Would you like to save what you've filled? (Y/Anything)")
+        if to_save == "Y":
+            #  For now which file to write = hardcoded => TODO = ask user which file to read
+            save_filled_form(filled_form, "scrum_daily_filled.xml")
     else:
-        main_old
+        main_old()
 
 if __name__ == "__main__":
     main()
