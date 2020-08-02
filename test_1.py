@@ -38,6 +38,12 @@ def test_save_filled_form2():
     assert " ".join(expected_form_str.split()) == " ".join(actual_form_str.split())
 
 
+def test_do_not_stop_when_file_does_not_exist():
+    form_file = "scrum_dailyy.xml"
+    with unittest.mock.patch("builtins.input", return_value="Whatever"):
+        interactive.read_and_fill(form_file)
+
+
 """Tests at a micro level"""
 
 def test_get_welcome_message_for_scrum_daily_sheet():

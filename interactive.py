@@ -16,17 +16,19 @@ def get_welcome_message(xml_root):
 
 
 def read_and_fill(form_file):
-    root = ET.parse(form_file).getroot()
-    print(get_welcome_message(root))
-
-    for el in root:
-        if el.tag == "text":
-            print(el.text)
-        elif el.tag == "question":
-            answer = input(el.text + " ")
-            el.set("answer", answer)
-
-    return ET.ElementTree(root)
+    try:
+        root = ET.parse(form_file).getroot()
+        print(get_welcome_message(root))
+        for el in root:
+            if el.tag == "text":
+                print(el.text)
+            elif el.tag == "question":
+                answer = input(el.text + " ")
+                el.set("answer", answer)
+        return ET.ElementTree(root)
+    except (FileNotFoundError, IOError):
+        print("File doesn't exist.")
+    return 
 
 def save_filled_form(form, filename):
     form.write(filename)
@@ -35,14 +37,21 @@ def save_filled_form(form, filename):
 
 def main():
     if True:
-        #  For now which file to read = hardcoded => TODO = ask user which file to read
-        filled_form = read_and_fill("scrum_daily.xml")
+        """Read file"""
+        filled_form = None
+        while not filled_form:
+            template_path = input("Which file should be open to read the template from? ")
+            filled_form = read_and_fill(template_path)
         filled_form_str = ET.tostring(filled_form.getroot()).decode('utf8')
         print("Here is the filled form content:",  filled_form_str)
+
+        
+        """Potentially save file"""
         to_save = input("Would you like to save what you've filled? (Y/Anything)")
         if to_save == "Y":
             #  For now which file to write = hardcoded => TODO = ask user which file to read
             save_filled_form(filled_form, "scrum_daily_filled.xml")
+
     else:
         main_old()
 
