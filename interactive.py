@@ -37,6 +37,8 @@ def main():
     if True:
         #  For now which file to read = hardcoded => TODO = ask user which file to read
         filled_form = read_and_fill("scrum_daily.xml")
+        filled_form_str = ET.tostring(filled_form.getroot()).decode('utf8')
+        print("Here is the filled form content:",  filled_form_str)
         to_save = input("Would you like to save what you've filled? (Y/Anything)")
         if to_save == "Y":
             #  For now which file to write = hardcoded => TODO = ask user which file to read
