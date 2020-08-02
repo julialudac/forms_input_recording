@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+import sys
 
 def main_old():
     print('Welcome to the "Double your productivity by 5 P.M. tomorrow system!"')
@@ -18,6 +19,11 @@ def get_welcome_message(xml_root):
 def read_and_fill(form_file):
     try:
         root = ET.parse(form_file).getroot()
+        ROOT_TEXT = "stepsdata"
+        """TODO have a better check: The checks can be extracted into a function."""
+        if root.tag != ROOT_TEXT:
+            sys.stderr.write("Content of the file doesn't seem to be a template.\n")
+            return
         print(get_welcome_message(root))
         for el in root:
             if el.tag == "text":
@@ -27,7 +33,7 @@ def read_and_fill(form_file):
                 el.set("answer", answer)
         return ET.ElementTree(root)
     except (FileNotFoundError, IOError):
-        print("File doesn't exist.")
+        sys.stderr.write("File doesn't exist.\n")
     return 
 
 def save_filled_form(form, filename):

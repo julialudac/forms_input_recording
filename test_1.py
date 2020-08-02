@@ -43,6 +43,11 @@ def test_do_not_stop_when_file_does_not_exist():
     with unittest.mock.patch("builtins.input", return_value="Whatever"):
         interactive.read_and_fill(form_file)
 
+def test_when_file_is_not_a_template_dont_return_an_ElementTree():
+    form_file = "scrum_daily_impostor.xml"
+    with unittest.mock.patch("builtins.input", return_value="Whatever"):
+        nothing = interactive.read_and_fill(form_file)
+        assert nothing == None
 
 """Tests at a micro level"""
 
