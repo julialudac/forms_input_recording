@@ -31,7 +31,13 @@ def read_and_fill(form_file):
             if el.tag == "text":
                 print(el.text)
             elif el.tag == "question":
-                answer = input(el.text + " ")
+                print(el.text + " ")
+                if __answer_exists__(el):
+                    print("Current answer:", el.attrib.get("answer"))
+                    new_answer = input("Do you want to provide another one? (Y/other)")
+                    if new_answer != "Y":
+                        continue
+                answer = input()
                 el.set("answer", answer)
         return ET.ElementTree(root)
     except (FileNotFoundError, IOError):
@@ -44,6 +50,8 @@ def save_filled_form(form, dirpath, filename):
     form.write(os.path.join(dirpath, filename))
     print("The form has been saved to " + dirpath + " with current name '" + filename + "'")
 
+def __answer_exists__(question_node):
+    return "answer" in question_node.attrib and question_node.attrib.get("answer")
 
 def main():
     if True:

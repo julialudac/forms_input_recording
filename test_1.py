@@ -90,7 +90,17 @@ def test_write_saved_file_to_indicated_place():
     interactive.save_filled_form(person, target_dir, target_filename)
 
     assert os.path.exists(target)
+
      
+def test_question_node_has_an_answer():
+    question = ET.Element("question")
+    question.set("answer", "An Answer")
+    assert interactive.__answer_exists__(question)
 
+def test_question_node_has_no_answer():
+    question = ET.Element("question")
+    assert not interactive.__answer_exists__(question)
 
+    question.set("answer", "")
+    assert not interactive.__answer_exists__(question)
 
