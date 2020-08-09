@@ -19,7 +19,7 @@ def test_save_filled_form():
     with open(expected_form_file) as f:
         expected_form_str = f.read()
     with unittest.mock.patch("builtins.input", return_value=SAME_ANSWER):
-        form_with_answers = interactive.read_and_fill(form_file)
+        form_with_answers = interactive.create_form_instance_from(form_file)
         actual_form_str = ET.tostring(form_with_answers.getroot()).decode('utf-8')
     assert " ".join(expected_form_str.split()) == " ".join(actual_form_str.split())
     
@@ -34,7 +34,7 @@ def test_save_filled_form2():
     with open(expected_form_file) as f:
         expected_form_str = f.read()
     with unittest.mock.patch("builtins.input", return_value=SAME_ANSWER):
-        form_with_answers = interactive.read_and_fill(form_file)
+        form_with_answers = interactive.create_form_instance_from(form_file)
         actual_form_str = ET.tostring(form_with_answers.getroot()).decode('utf-8')
     assert " ".join(expected_form_str.split()) == " ".join(actual_form_str.split())
 
@@ -54,19 +54,19 @@ def test_get_scrum_daily_xml_with_answers():
     SAME_ANSWER = "The answer"  # can only mock input() with one constant value
     form_with_answers = None
     with unittest.mock.patch("builtins.input", return_value=SAME_ANSWER):
-        form_with_answers = interactive.read_and_fill(form)
+        form_with_answers = interactive.create_form_instance_from(form)
         for qa in form_with_answers.getroot().findall("question"):
             assert qa.attrib.get("answer") == SAME_ANSWER
 
 def test_do_not_stop_when_file_does_not_exist():
     form_file = "scrum_dailyy.xml"
     with unittest.mock.patch("builtins.input", return_value="Whatever"):
-        interactive.read_and_fill(form_file)
+        interactive.create_form_instance_from(form_file)
 
 def test_when_file_is_not_a_template_dont_return_an_ElementTree():
     form_file = "scrum_daily_impostor.xml"
     with unittest.mock.patch("builtins.input", return_value="Whatever"):
-        nothing = interactive.read_and_fill(form_file)
+        nothing = interactive.create_form_instance_from(form_file)
         assert nothing == None
 
 def test_write_saved_file_to_indicated_place():

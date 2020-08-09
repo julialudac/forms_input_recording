@@ -18,7 +18,7 @@ def get_welcome_message(xml_root):
     return "Welcome to the " + title_element.text + " system!"
 
 
-def read_and_fill(form_file):
+def create_form_instance_from(form_file):
     try:
         root = ET.parse(form_file).getroot()
         ROOT_TEXT = "stepsdata"
@@ -59,7 +59,7 @@ def main():
         filled_form = None
         while not filled_form:
             template_path = input("Which file should be open to read the template from? ")
-            filled_form = read_and_fill(template_path)
+            filled_form = create_form_instance_from(template_path)
         filled_form_str = ET.tostring(filled_form.getroot()).decode('utf8')
         print("Here is the filled form content:",  filled_form_str)
 
