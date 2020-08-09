@@ -1,5 +1,7 @@
 import xml.etree.ElementTree as ET
 import sys
+import os
+from pathlib import Path
 
 def main_old():
     print('Welcome to the "Double your productivity by 5 P.M. tomorrow system!"')
@@ -36,9 +38,11 @@ def read_and_fill(form_file):
         sys.stderr.write("File doesn't exist.\n")
     return 
 
-def save_filled_form(form, filename):
-    form.write(filename)
-    print("The form has been saved with current name '" + filename + "'")
+def save_filled_form(form, dirpath, filename):
+    path = Path(dirpath)
+    path.mkdir(parents=True, exist_ok=True)
+    form.write(os.path.join(dirpath, filename))
+    print("The form has been saved to " + dirpath + " with current name '" + filename + "'")
 
 
 def main():
@@ -56,7 +60,9 @@ def main():
         to_save = input("Would you like to save what you've filled? (Y/Anything)")
         if to_save == "Y":
             #  For now which file to write = hardcoded => TODO = ask user which file to read
-            save_filled_form(filled_form, "scrum_daily_filled.xml")
+            filename = input("Please specify the name of the file: ")
+            dirpath = input("If you want to save at a specific directory path, please specify it: ")
+            save_filled_form(filled_form, dirpath, filename)
 
     else:
         main_old()
