@@ -3,15 +3,6 @@ import sys
 import os
 from pathlib import Path
 
-def main_old():
-    print('Welcome to the "Double your productivity by 5 P.M. tomorrow system!"')
-
-    print("----------- Phase 1 - Planning -------------")
-
-    dum = input("1/ What's your big goal (Month/Quarter/Year)? ")
-
-    print("2/ Amplify your motivation for the Big Goal. Create a burning Desire.")
-    dum = input("2/ a. Visualize (OK/KO): ")
 
 def get_welcome_message(xml_root):
     title_element = list(xml_root)[0]
@@ -54,26 +45,22 @@ def __answer_exists__(question_node):
     return "answer" in question_node.attrib and question_node.attrib.get("answer")
 
 def main():
-    if True:
-        """Read file"""
-        filled_form = None
-        while not filled_form:
-            template_path = input("Which file should be open to read the template from? ")
-            filled_form = create_form_instance_from(template_path)
-        filled_form_str = ET.tostring(filled_form.getroot()).decode('utf8')
-        print("Here is the filled form content:",  filled_form_str)
+    """Read file"""
+    filled_form = None
+    while not filled_form:
+        template_path = input("Which file should be open to read the template from? ")
+        filled_form = create_form_instance_from(template_path)
+    filled_form_str = ET.tostring(filled_form.getroot()).decode('utf8')
+    print("Here is the filled form content:",  filled_form_str)
 
-        
-        """Potentially save file"""
-        to_save = input("Would you like to save what you've filled? (Y/Anything)")
-        if to_save == "Y":
-            #  For now which file to write = hardcoded => TODO = ask user which file to read
-            filename = input("Please specify the name of the file: ")
-            dirpath = input("If you want to save at a specific directory path, please specify it: ")
-            save_filled_form(filled_form, dirpath, filename)
-
-    else:
-        main_old()
+    
+    """Potentially save file"""
+    to_save = input("Would you like to save what you've filled? (Y/Anything)")
+    if to_save == "Y":
+        #  For now which file to write = hardcoded => TODO = ask user which file to read
+        filename = input("Please specify the name of the file: ")
+        dirpath = input("If you want to save at a specific directory path, please specify it: ")
+        save_filled_form(filled_form, dirpath, filename)
 
 if __name__ == "__main__":
     main()
