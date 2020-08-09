@@ -80,7 +80,6 @@ def test_write_saved_file_to_indicated_place():
     street_name = ET.SubElement(address, "name")
     street_name.text = "Vaalser Strasse"
     person = ET.ElementTree(person_root)
-    print(ET.tostring(person_root))
 
     target_dir = "test_forms"
     target_filename = "toto_txt.xml"
