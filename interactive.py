@@ -116,15 +116,41 @@ def create_answers_structure_from_similar_filled_forms(filled_forms, filled_form
     return ET.ElementTree(root)
 
 
+def extract_filename_from_path(path):
+    path_nodes = path.split("/")
+    return path_nodes[-1]
+
+
+# TODO defensive programming. Because here no verification at all
+def read_forms_menu():
+    forms_paths = [input("Form #1 to read: ")]
+    open_others = "Y"
+    next_instance_number = 2
+    while open_others == "Y":
+        forms_paths.append(input("Form #" + str(next_instance_number)+ " to read: "))
+        next_instance_number+=1
+        open_others = input("Do you want to open other instances? (Y/other)")
+    filled_forms = [ET.parse(forms_path) for forms_path in forms_paths]
+    filled_forms_name = [extract_filename_from_path(forms_path) for forms_path in forms_paths]
+    answers_structure = create_answers_structure_from_similar_filled_forms(filled_forms, filled_forms_name)
+    print("Here are the answers from the collected forms for each questions:")
+    print_element_content(answers_structure.getroot())
+
+
+
+
+
 def main():
     print("Welcome to form input recording program.")
     option = ""
-    while option not in ["1","2"]:
-        option = input("What would you like to do?\n1. Fill a form\n2. Read form\n")
+    while option not in ["1","2", "3"]:
+        option = input("What would you like to do?\n1. Fill a form\n2. Read form\n3. Read several forms at once from the same template\n")
         if option == "1":
             fill_form_menu()
         elif option == "2":
             read_form_menu()
+        elif option == "3":
+            read_forms_menu()
 
 if __name__ == "__main__":
     main()
