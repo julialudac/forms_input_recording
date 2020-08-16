@@ -4,7 +4,9 @@ import unittest.mock
 import xml.etree.ElementTree as ET
 import mock
 import os
+import lxml.etree as etree
 
+#TODO replace ET uses by etree
 
 """Testing the behavior of the whole"""
 
@@ -103,3 +105,21 @@ def test_question_node_has_no_answer():
     question.set("answer", "")
     assert not interactive.__answer_exists__(question)
 
+def test_create_answers_structure_from_similar_filled_forms():
+   expected_answers_structure = ET.parse("dailies/daily_answers.xml")
+   filled_forms_paths = ["dailies/daily_julia.xml", "dailies/daily_thomas.xml", "dailies/daily_paul.xml"] 
+   filled_forms_name = ["Julia", "Thomas", "Paul"]
+   filled_forms = [ET.parse(path) for path in filled_forms_paths] 
+
+   actual_answers_structure = interactive.create_answers_structure_from_similar_filled_forms(filled_forms, filled_forms_name)
+   actual_answers_structure_root = etree.fromstring(ET.tostring(actual_answers_structure.getroot()).decode('utf8'))
+
+   """ There is no real way to compare 2 elements, so the trick is to convert them into strings. There is the trap
+   of whitespaces, which make the test break with the alignment of the elements in the string is not the
+   same => The trick is to make the actual and expected elements have the same format using pretty print from etree
+   and 2 whitespaces indentation in the expected file. This is an ugly test, but so far I don't know other possiblities
+   that work."""
+   expected_answers_structure_root_str = ET.tostring(expected_answers_structure.getroot()).decode() 
+   actual_answers_structure_root_str = etree.tostring(actual_answers_structure_root, pretty_print=True).decode()
+   actual_answers_structure_root_str = actual_answers_structure_root_str[:len(actual_answers_structure_root_str)-1] # -1 because of an extra \n to throw away
+   assert expected_answers_structure_root_str == actual_answers_structure_root_str 

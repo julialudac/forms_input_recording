@@ -101,6 +101,21 @@ def read_form_menu():
     read_form(path_to_form)
 
 
+# TODO do defensive programming for this function... or not because the non-console part will be totally different
+def create_answers_structure_from_similar_filled_forms(filled_forms, filled_forms_name):
+    root = ET.Element("stepsdata")
+    title = ET.SubElement(root, "title")
+    title.text = filled_forms[0].findall("title")[0].text
+    questions = filled_forms[0].findall("question")
+    for i in range(len(questions)):
+        question_text = ET.SubElement(root, "text")
+        question_text.text = "Q: " + questions[i].text
+        for j in range(len(filled_forms)):
+            answer_text = ET.SubElement(root, "text")
+            answer_text.text = "A from " + filled_forms_name[j] + ": " + filled_forms[j].findall("question")[i].attrib.get("answer")
+    return ET.ElementTree(root)
+
+
 def main():
     print("Welcome to form input recording program.")
     option = ""
