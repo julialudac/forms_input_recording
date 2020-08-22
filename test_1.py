@@ -12,10 +12,10 @@ import lxml.etree as etree
 
 
 def test_save_filled_form():
-    form_file = "scrum_daily.xml"
+    form_file = "data/scrum_daily.xml"
     SAME_ANSWER = "The answer"  # can only mock input() with one constant value
     form_with_answers = None
-    expected_form_file = "scrum_daily_dummy_answers.xml"
+    expected_form_file = "data/scrum_daily_dummy_answers.xml"
     expected_form_str = None
     actual_form_str = None
     with open(expected_form_file) as f:
@@ -27,10 +27,10 @@ def test_save_filled_form():
     
 
 def test_save_filled_form2():
-    form_file = "scrum_daily.xml"
+    form_file = "data/scrum_daily.xml"
     SAME_ANSWER = "The answer 2"  # can only mock input() with one constant value
     form_with_answers = None
-    expected_form_file = "scrum_daily_dummy_answers2.xml"
+    expected_form_file = "data/scrum_daily_dummy_answers2.xml"
     expected_form_str = None
     actual_form_str = None
     with open(expected_form_file) as f:
@@ -44,7 +44,7 @@ def test_save_filled_form2():
 """Tests at a micro level"""
 
 def test_get_welcome_message_for_scrum_daily_sheet():
-    form = "scrum_daily.xml"
+    form = "data/scrum_daily.xml"
     root = ET.parse(form).getroot()
 
     welcome_message = interactive.get_welcome_message(root) 
@@ -52,7 +52,7 @@ def test_get_welcome_message_for_scrum_daily_sheet():
     assert "Welcome to the Scrum Daily system!" == welcome_message
     
 def test_get_scrum_daily_xml_with_answers():
-    form = "scrum_daily.xml"
+    form = "data/scrum_daily.xml"
     SAME_ANSWER = "The answer"  # can only mock input() with one constant value
     form_with_answers = None
     with unittest.mock.patch("builtins.input", return_value=SAME_ANSWER):
@@ -61,12 +61,12 @@ def test_get_scrum_daily_xml_with_answers():
             assert qa.attrib.get("answer") == SAME_ANSWER
 
 def test_do_not_stop_when_file_does_not_exist():
-    form_file = "scrum_dailyy.xml"
+    form_file = "data/scrum_dailyy.xml"
     with unittest.mock.patch("builtins.input", return_value="Whatever"):
         interactive.create_form_instance_from(form_file)
 
 def test_when_file_is_not_a_template_dont_return_an_ElementTree():
-    form_file = "scrum_daily_impostor.xml"
+    form_file = "data/scrum_daily_impostor.xml"
     with unittest.mock.patch("builtins.input", return_value="Whatever"):
         nothing = interactive.create_form_instance_from(form_file)
         assert nothing == None
@@ -83,7 +83,7 @@ def test_write_saved_file_to_indicated_place():
     street_name.text = "Vaalser Strasse"
     person = ET.ElementTree(person_root)
 
-    target_dir = "test_forms"
+    target_dir = "data/test_forms"
     target_filename = "toto_txt.xml"
     target = os.path.join(target_dir, target_filename)
     if os.path.exists(target):
@@ -95,7 +95,7 @@ def test_write_saved_file_to_indicated_place():
      
 def test_question_node_has_an_answer():
     question = ET.Element("question")
-    question.set("answer", "An Answer")
+    question.set("answer", "data/An Answer")
     assert interactive.__answer_exists__(question)
 
 def test_question_node_has_no_answer():
@@ -106,8 +106,8 @@ def test_question_node_has_no_answer():
     assert not interactive.__answer_exists__(question)
 
 def test_create_answers_structure_from_similar_filled_forms():
-   expected_answers_structure = ET.parse("dailies/daily_answers.xml")
-   filled_forms_paths = ["dailies/daily_julia.xml", "dailies/daily_thomas.xml", "dailies/daily_paul.xml"] 
+   expected_answers_structure = ET.parse("data/dailies/daily_answers.xml")
+   filled_forms_paths = ["data/dailies/daily_julia.xml", "data/dailies/daily_thomas.xml", "data/dailies/daily_paul.xml"] 
    filled_forms_name = ["Julia", "Thomas", "Paul"]
    filled_forms = [ET.parse(path) for path in filled_forms_paths] 
 
