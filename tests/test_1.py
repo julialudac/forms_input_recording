@@ -1,5 +1,6 @@
+from .context import interactive
+
 from unittest.mock import Mock
-import interactive
 import unittest.mock
 import xml.etree.ElementTree as ET
 import mock
@@ -91,6 +92,9 @@ def test_write_saved_file_to_indicated_place():
     interactive.save_filled_form(person, target_dir, target_filename)
 
     assert os.path.exists(target)
+
+    # Once we don't need anymore, i.e. at the end of the test
+    os.remove(target)
 
      
 def test_question_node_has_an_answer():
