@@ -1,4 +1,4 @@
-import xml.etree.ElementTree as ET
+import lxml.etree as etree
 import sys
 import os
 from pathlib import Path
@@ -16,7 +16,7 @@ def is_a_template(root):
 
 def create_form_instance_from(form_file):
     try:
-        root = ET.parse(form_file).getroot()
+        root = etree.parse(form_file).getroot()
         if not is_a_template(root):
             sys.stderr.write("Content of the file doesn't seem to be a template.\n")
             return
@@ -33,7 +33,7 @@ def create_form_instance_from(form_file):
                         continue
                 answer = input()
                 el.set("answer", answer)
-        return ET.ElementTree(root)
+        return etree.ElementTree(root)
     except (FileNotFoundError, IOError):
         sys.stderr.write("File doesn't exist.\n")
     return 
@@ -53,7 +53,7 @@ def fill_form_menu():
     while not filled_form:
         template_path = input("Which file should be open to read the template from? ")
         filled_form = create_form_instance_from(template_path)
-    filled_form_str = ET.tostring(filled_form.getroot()).decode('utf8')
+    filled_form_str = etree.tostring(filled_form.getroot()).decode('utf8')
     print("Here is the filled form content:",  filled_form_str)
 
     
@@ -87,7 +87,7 @@ def print_element_content(root):
 
 def read_form(path_to_form):
     try:
-        root = ET.parse(path_to_form).getroot()
+        root = etree.parse(path_to_form).getroot()
         if not is_a_template(root):
             sys.stderr.write("Content of the file doesn't seem to be a template.\n")
         print("Here is the content of the form:")
@@ -103,17 +103,17 @@ def read_form_menu():
 
 # TODO do defensive programming for this function... or not because the non-console part will be totally different
 def create_answers_structure_from_similar_filled_forms(filled_forms, filled_forms_name):
-    root = ET.Element("stepsdata")
-    title = ET.SubElement(root, "title")
+    root = etree.Element("stepsdata")
+    title = etree.SubElement(root, "title")
     title.text = filled_forms[0].findall("title")[0].text
     questions = filled_forms[0].findall("question")
     for i in range(len(questions)):
-        question_text = ET.SubElement(root, "text")
+        question_text = etree.SubElement(root, "text")
         question_text.text = "Q: " + questions[i].text
         for j in range(len(filled_forms)):
-            answer_text = ET.SubElement(root, "text")
+            answer_text = etree.SubElement(root, "text")
             answer_text.text = "A from " + filled_forms_name[j] + ": " + filled_forms[j].findall("question")[i].attrib.get("answer")
-    return ET.ElementTree(root)
+    return etree.ElementTree(root)
 
 
 def extract_filename_from_path(path):
@@ -130,7 +130,7 @@ def read_forms_menu():
         forms_paths.append(input("Form #" + str(next_instance_number)+ " to read: "))
         next_instance_number+=1
         open_others = input("Do you want to open other instances? (Y/other)")
-    filled_forms = [ET.parse(forms_path) for forms_path in forms_paths]
+    filled_forms = [etree.parse(forms_path) for forms_path in forms_paths]
     filled_forms_name = [extract_filename_from_path(forms_path) for forms_path in forms_paths]
     answers_structure = create_answers_structure_from_similar_filled_forms(filled_forms, filled_forms_name)
     print("Here are the answers from the collected forms for each questions:")
