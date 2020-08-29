@@ -127,3 +127,7 @@ def test_create_answers_structure_from_similar_filled_forms():
    actual_answers_structure_root_str = etree.tostring(actual_answers_structure_root, pretty_print=True).decode()
    actual_answers_structure_root_str = actual_answers_structure_root_str[:len(actual_answers_structure_root_str)-1] # -1 because of an extra \n to throw away
    assert expected_answers_structure_root_str == actual_answers_structure_root_str 
+
+
+def 1_is_2():
+    assert 1 == 3
