@@ -1,7 +1,7 @@
 
 # inspired from https://github.com/navdeep-G/samplemod
 
-import interactive
+import action_menu
 import sys
 import os
 sys.path.insert(0, os.path.abspath(
