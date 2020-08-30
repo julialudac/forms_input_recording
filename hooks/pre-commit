@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "Formatting Python files according to pep8...\n"
+autopep8 *.py -i --recursive
+
+exit 0
