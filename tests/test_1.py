@@ -129,5 +129,3 @@ def test_create_answers_structure_from_similar_filled_forms():
    assert expected_answers_structure_root_str == actual_answers_structure_root_str 
 
 
-def 1_is_2():
-    assert 1 == 5
