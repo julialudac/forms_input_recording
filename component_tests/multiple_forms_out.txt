@@ -1,0 +1,36 @@
+Welcome to form input recording program.
+What would you like to do?
+1. Fill a form
+2. Read form
+3. Read several forms at once from the same template
+Form #1 to read: Form #2 to read: Do you want to open other instances? (Y/other)Form #3 to read: Do you want to open other instances? (Y/other)Here are the answers from the
+collected forms for each questions:
+
+
+---------- SCRUM DAILY ----------
+
+
+Q: 1/ What did you do yesterday?
+
+A from daily_julia.xml: I cleaned the fridge
+
+A from daily_paul.xml: I played TF2 with Thomas
+
+A from daily_thomas.xml: I played TF2
+
+Q: 2/ What blocking points did you meet if any?
+
+A from daily_julia.xml: Nothing particular ;)
+
+A from daily_paul.xml: Thomas wakes up too late!
+
+A from daily_thomas.xml: Didn't really have blocking points. Nada.
+
+Q: 3/ What do you do today?
+
+A from daily_julia.xml: I sweep the floor and clean the bathroom's wall
+
+A from daily_paul.xml: I play Terraria with Thomas
+
+A from daily_thomas.xml: I play Terraria
+

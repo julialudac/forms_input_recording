@@ -1,0 +1,7 @@
+3
+data/dailies/daily_julia.xml
+data/dailies/daily_paul.xml
+Y
+data/dailies/daily_thomas.xml
+N
+
