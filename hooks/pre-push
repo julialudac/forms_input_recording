@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo "Cloning temporary copy of the project into ./temp\n"
+git clone . -b $(git symbolic-ref --short HEAD) temp
+
+cd temp
+echo "Starting Tests\n"
+./runTests.sh
+
+testResults=$?
+
+cd ..
+rm temp -rf
+
+if [ $testResults -ne 0 ]
+then
+    echo -e "\n Tests FAILED\n\n commit ABORTED"
+        exit 1
+    fi
+    exit 0
