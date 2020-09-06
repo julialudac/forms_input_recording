@@ -7,8 +7,6 @@ import mock
 import os
 import lxml.etree as etree
 
-# TODO replace ET uses by etree
-
 """Testing the behavior of the whole"""
 
 

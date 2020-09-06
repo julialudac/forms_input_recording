@@ -1,4 +1,4 @@
-from action_menu import FillFormMenu, ReadFormMenu, ReadFormsMenu
+from sample.action_menu import FillFormMenu, ReadFormMenu, ReadFormsMenu
 
 
 def get_welcome_message(xml_root):

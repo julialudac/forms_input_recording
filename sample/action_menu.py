@@ -30,9 +30,10 @@ def create_form_instance_from(form_file):
             return
         print(get_welcome_message(root))
         for el in root:
-            if el.tag == "text":
-                print(el.text)
-            elif el.tag == "question":
+# TODO useless feature for now...
+#            if el.tag == "text":
+#                print(el.text)
+            if el.tag == "question":
                 print(el.text + " ")
                 if answer_exists(el):
                     print("Current answer:", el.attrib.get("answer"))

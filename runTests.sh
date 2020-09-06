@@ -13,7 +13,7 @@ echo "Running component test..."
 # TODO: Now there is only one component test...
 #cd component_tests
 expected=$(cat component_tests/multiple_forms_out.txt | tr '\n' ' ') 
-actual=$(python interactive.py < component_tests/multiple_forms_in.txt | tr '\n' ' ')
+actual=$(python main.py < component_tests/multiple_forms_in.txt | tr '\n' ' ')
 if [ ! "$expected" == "$actual" ]; then
     echo "Component test failed!"
     echo "Expected value: $expected"
